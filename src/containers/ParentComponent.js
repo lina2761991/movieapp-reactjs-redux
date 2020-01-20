@@ -1,10 +1,15 @@
 import MovieCard from "./MovieCard";
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { deleteMovie, setVisibilityFilter,editMovie } from "../actions/actionCreators";
+import {
+  deleteMovie,
+  setVisibilityFilter,
+  editMovie
+} from "../actions/actionCreators";
 import { SHOW_ALL, SHOW_TITLE } from "../actions/actionTypes";
 import { bindActionCreators } from "redux";
 import AddComponent from "./AddComponent";
+import ModalComponent from "./ModalComponent";
 import StarRatings from "react-star-ratings";
 
 class ParentComponent extends Component {
@@ -13,9 +18,16 @@ class ParentComponent extends Component {
     this.state = {
       movies: this.props.movies,
       inputValue: "",
-      inputRating: 0
+      inputRating: 0,
+      requiredItem: 0
     };
   }
+
+  replaceModalItem = index => {
+    this.setState({
+      requiredItem: index
+    });
+  };
 
   componentWillReceiveProps(nextProps) {
     this.setState({
@@ -56,6 +68,9 @@ class ParentComponent extends Component {
   };
 
   render() {
+    const requiredItem = this.state.requiredItem;
+    let modalData = this.state.movies[requiredItem];
+
     return (
       <div className="all">
         <div className="inputs">
@@ -104,9 +119,20 @@ class ParentComponent extends Component {
                 rating={element.rating}
                 deleteMovie={this.props.deleteMovie}
                 editMovie={this.props.editMovie}
+                replaceModalItem={this.replaceModalItem}
               />
             );
           })}
+
+          <ModalComponent
+            id={modalData.id}
+            title={modalData.title}
+            description={modalData.description}
+           
+            image={modalData.image}
+            rating={modalData.rating}
+            // saveModalDetails={this.saveModalDetails}
+          />
           <AddComponent />
         </div>
       </div>
@@ -129,16 +155,13 @@ const getVisibleMovies = (movies, filter) => {
 
 const mapStateToProps = state => {
   return { movies: state.movies };
-  // return {
-  //   movies: getVisibleMovies(state.movies, state.visibilityFilter),
-  //   visibilityFilter: state.visibilityFilter
-  // };
+ 
 };
 
 const mapDispatchToProps = dispatch => {
   return bindActionCreators(
     {
-     deleteMovie,
+      deleteMovie,
       //editMovie,
       setVisibilityFilter
     },

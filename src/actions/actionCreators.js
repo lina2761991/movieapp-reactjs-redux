@@ -17,9 +17,13 @@ export const deleteMovie = (id) => ({
     id: id
 })
 
-export const editMovie = (id) => ({
+export const editMovie = (id,title, description, image, rating) => ({
     type: EDIT_MOVIE,
-    id: id
+  id,
+    title,
+    description,
+    image,
+    rating
 })
 
 // export const openForm = showForm => ({

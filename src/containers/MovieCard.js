@@ -6,8 +6,11 @@ import { editMovie } from "../actions/actionCreators";
 
 import { SHOW_ALL } from "../actions/actionTypes";
 import { bindActionCreators } from "redux";
+import ModalComponent from "./ModalComponent";
 
 class MovieCard extends React.Component {
+ 
+
   render() {
     return (
       <div className="movie-card card">
@@ -28,156 +31,43 @@ class MovieCard extends React.Component {
               <button id="descriptionButton">Movie Description</button>
             </div>
             <div className="card-footer-badge ">
-              {/* <div className="card-body">
-                <button
+              {/* <button
+                id="editButton"
+                type="button"
+                className="btn btn-primary"
+                data-toggle="modal"
+                data-target="#exampleModal1"
+                data-whatever="@getbootstrap"
+                onClick={() => console.log(this.props)}
+                // onClick={()=>this.props.editMovie(this.props.id)}
+              >
+                first edit
+              </button> */}
 
-                  id="editButton"
-                  type="button"
-                  className="btn btn-primary"
-                  data-toggle="modal"
-                  data-target="#exampleModal"
-                  data-whatever="@getbootstrap"
-                  onClick = {()=>console.log(this.props)}
-                // onClick={()=>this.props.editMovie(this.props.id)} 
-                        
-                >
-                  first edit
-                </button>
 
-                <div
-                  className="modal fade"
-                  id="exampleModal"
-                  tabIndex="-1"
-                  role="dialog"
-                  aria-labelledby="exampleModalLabel"
-                  aria-hidden="true"
-                >
 
-                <div className="modal-dialog" role="document">
-                  <div className="modal-content">
-                    <div className="modal-header">
-                      <h5 className="modal-title" id="exampleModalLabel">
-                        Edit movie
-                      </h5>
-                      <button
-                        type="button"
-                        className="close"
-                        data-dismiss="modal"
-                        aria-label="Close"
-                      
-                  //  this.props.editMovie(this.props.id);
-                    
-            
-                      >
-                        <span aria-hidden="true">&times;</span>
-                      </button>
-                    </div>
-                    <div className="modal-body">
-                      <form>
-                        <div className="form-group">
-                          <label
-                            htmlFor="recipient-name"
-                            className="col-form-label"
-                          >
-                            Name:
-                          </label>
-                          <input
-                            type="text"
-                            className="form-control"
-                            id="recipient-name"
-                            value={this}
-                            // onChange={this.updateInputName}
-                          ></input>
-                        </div>
-                        <div className="form-group">
-                          <label
-                            htmlFor="message-text"
-                            className="col-form-label"
-                          >
-                            Description:
-                          </label>
-                          <textarea
-                            className="form-control"
-                            id="message-text"
-                            value={this.props.description}
-                            //  onChange={this.updateInputDesc}
-                          ></textarea>
-                        </div>
-                        <div className="form-group">
-                          <label
-                            htmlFor="recipient-name"
-                            className="col-form-label"
-                          >
-                            Image:
-                          </label>
-                          <input
-                            type="text"
-                            className="form-control"
-                            id="recipient-name"
-                            value={0}
-                            // onChange={this.updateInputImage}
-                          ></input>
-                        </div>
 
-                        <div className="form-group">
-                          <label
-                            htmlFor="recipient-name"
-                            className="col-form-label"
-                          >
-                            Rating:
-                          </label>
-                          <StarRatings
-                            rating={0}
-                            //changeRating={this.changeRating}
-                            starDimension="30px"
-                            starSpacing="1px"
-                          />
-                        </div>
-                      </form>
-                    </div>
-                    <div className="modal-footer">
-                      <button
-                        type="button"
-                        className="btn btn-secondary"
-                        data-dismiss="modal"
-                      >
-                        Cancel
-                      </button>
-                      <button
-                        type="button"
-                        className="btn btn-primary"
-                        // onClick={this.add }
-                       
-                      >
-                        Edit movie
-                      </button>
-                    </div>
-                  </div>
-                </div>
-
+              <button className="btn btn-primary" data-toggle="modal" data-target="#exampleModal1"
+              onClick={() => this.props.replaceModalItem(this.props.id)}>edit</button>
               
-              </div> */}
-              {/* </div> */}
+             
               <button
-                  onClick={() => {
-                    this.props.deleteMovie(this.props.id);
-                  }}
-                  id="removeButton"
-                >
-                  Remove
-                </button>
-              </div>
-              </div>
-              
-           
-            
-       
+                onClick={() => {
+                  this.props.deleteMovie(this.props.id);
+                }}
+                id="removeButton"
+              >
+                Remove
+              </button>
+            </div>
+          </div>
         </div>
       </div>
+
+      
     );
   }
 }
-
 
 const mapStateToProps = state => {
   return { movies: state.movies };
@@ -190,8 +80,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return bindActionCreators(
     {
-     // deleteMovie,
-      editMovie,
+      // deleteMovie,
+      editMovie
       //setVisibilityFilter
     },
     dispatch
@@ -199,4 +89,3 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(MovieCard);
-
