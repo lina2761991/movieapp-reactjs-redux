@@ -1,5 +1,5 @@
 
-import { ADD_MOVIE, REMOVE_MOVIE,EDIT_MOVIE} from '../actions/actionTypes';
+import { ADD_MOVIE, REMOVE_MOVIE,EDIT_MOVIE,SELECTED_ITEM_DATA} from '../actions/actionTypes';
 // if you want to show initial data :)
 const INITIAL_DATA =  [
     {
@@ -35,7 +35,11 @@ const INITIAL_DATA =  [
     {
       title: "Avengers",
       year:2015,
-      description: "blablablablablabla",
+      description: `Avengers ou Les Avengers : Le film au Québec et au Nouveau-Brunswick (Marvel's The Avengers) est un film de super-héros américain écrit et réalisé par Joss Whedon, sorti en 2012. Il se base sur l'équipe de super-héros du même nom (Les Vengeurs en français) apparaissant dans le comic book publié par Marvel Comics et constitue le sixième film de l'univers cinématographique Marvel (dont il clôt le premier arc, appelé « Phase I »).
+
+      Les interprètes des six Avengers sont Robert Downey Jr., Chris Evans, Chris Hemsworth, Scarlett Johansson, Jeremy Renner et Mark Ruffalo. Dans ce premier des quatre films de la série Avengers, Iron Man, Captain America, Thor, Hulk, Clint Barton et Natasha Romanoff doivent tenter de travailler en équipe afin d'empêcher le frère adoptif de Thor, Loki, d'envahir la Terre.
+      
+      Le film reçoit des critiques positives de la plupart des critiques de cinéma et établit plusieurs records au box-office américain, parmi lesquels le meilleur premier week-end d'exploitation en Amérique du Nord. Le film est également le plus rapide à atteindre la somme de 1 milliard de dollars de recettes. Il récolte au total 1,519 milliards de dollars, faisant de lui un des plus grands succès au box-office. Le film sort en Blu-ray, Blu-ray 3D et en DVD le 29 août en France et le 25 septembre 2012 aux États-Unis.`,
       image:
         "https://preview.redd.it/i16fmegsy8z01.jpg?auto=webp&s=b8dbbb4114c0b0194d810364e28d1c06cd82a886",
       id: 3,
@@ -49,6 +53,17 @@ const INITIAL_DATA =  [
 
 const MovieReducer = (state=INITIAL_DATA, action) => {
     switch (action.type){
+
+      case SELECTED_ITEM_DATA:
+          console.log('hello from reducer', action.item)
+        return state
+            
+        
+        
+
+
+
+        
         case ADD_MOVIE:
         return [
             ...state,{
@@ -61,22 +76,27 @@ const MovieReducer = (state=INITIAL_DATA, action) => {
             }
         ]
         
+
         case REMOVE_MOVIE:
         const numIndex = parseInt(action.id)
         return state.filter(movie => movie.id !== numIndex);
 
          case EDIT_MOVIE:
-           console.log(action.id)
+           
           const numIndex1 = parseInt(action.id)
-          console.log(numIndex1)
+          
           return  state.map((movie)=>{
          
            
             if( movie.id === numIndex1 ){
-              console.log('yeyyyyy')
+              
               return {...movie,
                   
                   title: action.title,
+                  description: action.description,
+                  image:action.image,
+                  rating:action.rating,
+
                  
               
               }

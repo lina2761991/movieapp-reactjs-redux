@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import {
   deleteMovie,
   setVisibilityFilter,
+  selected,
   editMovie
 } from "../actions/actionCreators";
 import { SHOW_ALL, SHOW_TITLE } from "../actions/actionTypes";
@@ -11,9 +12,14 @@ import { bindActionCreators } from "redux";
 import AddComponent from "./AddComponent";
 import ModalComponent from "./ModalComponent";
 import StarRatings from "react-star-ratings";
+import {Route} from 'react-router-dom';
+import MovieDescription from '../containers/MovieDescription.js';
+import { confirmAlert } from 'react-confirm-alert'; // Import
+import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 
 class ParentComponent extends Component {
   constructor(props) {
+    
     super(props);
     this.state = {
       movies: this.props.movies,
@@ -27,6 +33,7 @@ class ParentComponent extends Component {
     this.setState({
       requiredItem: index
     });
+    selected(this.state.requiredItem)
   };
 
   componentWillReceiveProps(nextProps) {
@@ -39,6 +46,7 @@ class ParentComponent extends Component {
 
   onInputChange = event => {
     var _ = require("lodash");
+    if(this.state.inputValue.length!==0){
     let newMovies = _.filter(this.props.movies, movie =>
       movie.title.toLowerCase().includes(event.target.value.toLowerCase())
     );
@@ -47,12 +55,24 @@ class ParentComponent extends Component {
       inputValue: event.target.value,
       movies: newMovies
     });
+  }
+  else{
+    let newMovies = _.filter(this.props.movies, movie =>
+      movie.rating >=this.state.inputRating
+    );
+
+    this.setState({
+      inputValue: event.target.value,
+      movies: newMovies
+    });
+  }
   };
 
   updateInputValue = evt => {
     this.setState({
       inputValue: evt.target.value
     });
+    
   };
 
   updatedMovies = array => {
@@ -70,7 +90,7 @@ class ParentComponent extends Component {
   render() {
     const requiredItem = this.state.requiredItem;
     let modalData = this.state.movies[requiredItem];
-
+    
     return (
       <div className="all">
         <div className="inputs">
@@ -108,7 +128,11 @@ class ParentComponent extends Component {
 
         <div className="MovieContainer">
           {this.state.movies.map((element, i) => {
+            
+            
             return (
+              
+              
               <MovieCard
                 title={element.title}
                 year={element.year}
@@ -117,25 +141,19 @@ class ParentComponent extends Component {
                 key={element.id}
                 id={element.id}
                 rating={element.rating}
-                deleteMovie={this.props.deleteMovie}
                 editMovie={this.props.editMovie}
                 replaceModalItem={this.replaceModalItem}
               />
+              
             );
           })}
-
-          <ModalComponent
-            id={modalData.id}
-            title={modalData.title}
-            description={modalData.description}
-           
-            image={modalData.image}
-            rating={modalData.rating}
-            // saveModalDetails={this.saveModalDetails}
-          />
-          <AddComponent />
+         
+          <AddComponent/>
         </div>
+        <ModalComponent/>
+       
       </div>
+     
     );
   }
 }
@@ -154,7 +172,8 @@ const getVisibleMovies = (movies, filter) => {
 };
 
 const mapStateToProps = state => {
-  return { movies: state.movies };
+  return { movies: state.movies,
+    item:state.item  };
  
 };
 
@@ -163,6 +182,7 @@ const mapDispatchToProps = dispatch => {
     {
       deleteMovie,
       //editMovie,
+      selected,
       setVisibilityFilter
     },
     dispatch

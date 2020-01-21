@@ -7,6 +7,7 @@ import {
   } from "../actions/actionCreators";
 
   import { bindActionCreators } from "redux";
+  import {Link,NavLink} from 'react-router-dom'
 
 class AddComponent extends React.Component {
   constructor(props) {
@@ -69,6 +70,7 @@ class AddComponent extends React.Component {
         <img src={image} className="logo" alt="..." />
 
         <div className="card-body">
+        <NavLink to ='/home/addMovie'>
           <button
             id="button1"
             type="button"
@@ -79,6 +81,7 @@ class AddComponent extends React.Component {
           >
             ADD NEW MOVIE
           </button>
+          </NavLink>
 
           <div
             className="modal fade"
@@ -171,6 +174,7 @@ class AddComponent extends React.Component {
                   >
                     Close
                   </button>
+                  <NavLink to ='/home'>
                   <button
                     type="button"
                     className="btn btn-primary"
@@ -178,6 +182,8 @@ class AddComponent extends React.Component {
                   >
                     Add movie
                   </button>
+                  </NavLink>
+                  
                 </div>
               </div>
             </div>
